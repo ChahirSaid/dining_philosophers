@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/07/30 06:52:55 by schahir          ###   ########.fr       */
+/*   Updated: 2025/07/31 18:22:14 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,28 @@ int main(int ac, char **av)
     
     if (s.nop <= 0 || s.ttd == -1 || s.tte == -1 || s.tts == -1 || s.nom == -1)
         return(putstr_fd("error: invalid arguments\n", 2), 1);    
-    philo = malloc(sizeof(t_philo) * s.nop);
+    philo = calloc(s.nop, sizeof(t_philo));
     if (!philo)
-        return (1);    
+        return (1);
+    //assign pid
     i = 0;
-    while (i <= s.nop)
+    while (i < s.nop)
     {
         philo[i].pid = i + 1;
         i++;
     }
-    
     i = 0;
     while (i < s.nop)
     {
         pthread_create(&philo[i].philo, NULL, routine, &philo[i]);
         i++;
     }
-    
     i = 0;
     while (i < s.nop)
     {
         pthread_join(philo[i].philo, NULL);
         i++;
     }
-    
     free(philo);
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:39:10 by schahir           #+#    #+#             */
-/*   Updated: 2025/07/30 06:44:35 by schahir          ###   ########.fr       */
+/*   Updated: 2025/07/31 18:10:29 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_philo
     t_schedule  *schedule;
 }   t_philo;
 
-int ft_atoi(char *str);
+long    ft_atoi(char *str);
 void	putstr_fd(char *s, int fd);
 
 #endif
