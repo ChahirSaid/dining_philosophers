@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_input.c                                     :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:39:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/04/24 18:06:55 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/01 05:32:03 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,26 @@ void	putstr_fd(char *s, int fd)
 		return ;
 	while (*s)
 		write(fd, s++, 1);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+	char	*str;
+
+	str = s;
+	i = 0;
+	while (i < n)
+		str[i++] = 0;
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*s;
+
+	s = malloc (size * nmemb);
+	if (!s)
+		return (NULL);
+	ft_bzero(s, (size * nmemb));
+	return (s);
 }
