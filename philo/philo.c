@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/01 09:38:39 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/02 01:39:17 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,16 @@ int    populate_philos(t_schedule *s, t_philo *philo)
 
 void    *routine(void *data)
 {
-    t_philo *infos;
-    infos = (t_philo *)data;
-    printf("%d\n", infos->pid);
+    t_philo *philo;
+    philo = (t_philo *)data;
+    // while (1)
+    // {
+    //     picking_forks();
+    //     eating();
+    //     sleeping();
+    //     thinking();
+        
+    // }
     return (NULL);
 }
 
