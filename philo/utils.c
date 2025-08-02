@@ -12,13 +12,13 @@
 
 #include "philo.h"
 
-long ft_atoi(char *str)
+long	ft_atoi(char *str)
 {
-    unsigned long value;
-    int i;
+	unsigned long	value;
+	int				i;
 
-    i = 0;
-    value = 0;
+	i = 0;
+	value = 0;
 	if (!str || !*str)
 		return (0);
 	if (str[i] == '+')
@@ -56,9 +56,9 @@ void	ft_bzero(void *s, size_t n)
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*s;
+	void *s;
 
-	s = malloc (size * nmemb);
+	s = malloc(size * nmemb);
 	if (!s)
 		return (NULL);
 	ft_bzero(s, (size * nmemb));
