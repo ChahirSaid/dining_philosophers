@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:39:10 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/02 03:20:13 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/05 11:22:08 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_schedule
 	int				tte;
 	int				tts;
 	int				nom;
+	long			first_meal;
 	int				departure;
 	int				one_died;
 	pthread_mutex_t	lock_print;
@@ -41,14 +42,21 @@ typedef struct s_philo
 	int				pid;
 	pthread_mutex_t	lfork;
 	pthread_mutex_t	*rfork;
+	pthread_mutex_t	lock_mealtime;
 	long			meals_eaten;
-	long			first_meal;
 	long			last_meal;
 	t_schedule		*schedule;
 }					t_philo;
 
+/*-----------Philo-------------*/
+void	*routine(void *data);
+int	print_routine(t_philo *philo, char *msg);
+int  check_n_delay(t_philo *philo);
+/*-------Utils----------*/
 long				ft_atoi(char *str);
 void				*ft_calloc(size_t nmemb, size_t size);
 void				putstr_fd(char *s, int fd);
+long		get_time();
 
+void    *monitoring(void *data);
 #endif

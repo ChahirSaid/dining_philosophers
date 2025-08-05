@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/02 03:29:43 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/05 11:50:18 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	populate_philos(t_schedule *s, t_philo *philo)
 	while (i < s->nop)
 	{
 		philo[i].pid = i + 1;
+		philo[i].schedule = s;
 		if (pthread_mutex_init(&philo[i].lfork, NULL))
 			return (-1);
 		if (i + 1 == s->nop)
@@ -42,26 +43,12 @@ int	populate_philos(t_schedule *s, t_philo *philo)
 	}
 	return (0);
 }
-
-void	*routine(void *data)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)data;
-	// while (1)
-	// {
-	//     picking_forks();
-	//     eating();
-	//     sleeping();
-	//     thinking();
-	// }
-	return (NULL);
-}
+//destroy mutexes on fail 
 
 int	launch_simulation(t_schedule *s, t_philo *philo)
 {
 	int	i;
-
+	pthread_t monitor;
 	i = 0;
 	pthread_mutex_lock(&s->lock_departure);
 	while (i < s->nop)
@@ -75,8 +62,16 @@ int	launch_simulation(t_schedule *s, t_philo *philo)
 		}
 		i++;
 	}
+	if (pthread_create(&monitor, NULL, monitoring, philo))
+	{
+		pthread_mutex_unlock(&s->lock_departure);
+		while (--i > 0)
+			pthread_join(philo[i].philo, NULL);
+		return (-1);
+	}
 	s->departure = 1;
 	pthread_mutex_unlock(&s->lock_departure);
+	pthread_join(monitor, NULL);
 	while (i--)
 		pthread_join(philo[i].philo, NULL);
 	return (0);
@@ -99,6 +94,7 @@ int	main(int ac, char **av)
 			.departure = 0, .one_died = 0};
 	if (s.nop <= 0 || s.ttd == -1 || s.tte == -1 || s.tts == -1 || s.nom == -1)
 		return (putstr_fd("error: invalid arguments\n", 2), 1);
+	s.first_meal = get_time();
 	if (init_mutexes(&s))
 		return (putstr_fd("error: failed to initialize mutexes\n", 2), 1);
 	philo = ft_calloc(s.nop, sizeof(t_philo));
