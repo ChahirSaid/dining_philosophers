@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/05 11:43:34 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/06 11:43:02 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int  check_n_delay(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->schedule->lock_departure);
     if (philo->pid % 2)
-    usleep(1000);
+  	  usleep(1000);
     return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:39:10 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/05 11:22:08 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/06 11:29:30 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ int  check_n_delay(t_philo *philo);
 long				ft_atoi(char *str);
 void				*ft_calloc(size_t nmemb, size_t size);
 void				putstr_fd(char *s, int fd);
-long		get_time();
+void				print_n_destroy(t_schedule *s, char *msg);
+void				print_n_clean(t_philo *philo, char *msg);
+long				get_time();
 
 void    *monitoring(void *data);
 #endif

@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 11:07:48 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/05 11:50:01 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/06 11:43:16 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void    *monitoring(void *data)
     philo = (t_philo *)data;
     if (check_n_delay(philo))
         return (NULL);
-    usleep(200000);
     while (1)
     {
         i = 0;
@@ -32,14 +31,16 @@ void    *monitoring(void *data)
                 pthread_mutex_unlock(&philo[i].lock_mealtime);
                 pthread_mutex_lock(&philo[i].schedule->lock_death);
                 philo[i].schedule->one_died = 1;
-                pthread_mutex_unlock(&philo[i].schedule->lock_death);
-                print_routine(philo, "philo die");
-                exit(0);
+                pthread_mutex_unlock(&philo->schedule->lock_death);
+	            pthread_mutex_lock(&philo->schedule->lock_print);
+	            printf("%ld\t%d %s\n", get_time() - philo->schedule->first_meal,
+			    philo->pid,"philo die");
+	            pthread_mutex_unlock(&philo->schedule->lock_print);
                 return (NULL);
             }
             pthread_mutex_unlock(&philo[i].lock_mealtime);
+            usleep(1000);
         }
-        usleep(1000);
     }
     return (NULL);
 }

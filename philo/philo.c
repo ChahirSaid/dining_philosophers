@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/05 11:50:18 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/06 11:44:57 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	launch_simulation(t_schedule *s, t_philo *philo)
 	pthread_mutex_lock(&s->lock_departure);
 	while (i < s->nop)
 	{
+		philo[i].last_meal = get_time();
 		if (pthread_create(&philo[i].philo, NULL, routine, &philo[i]))
 		{
 			pthread_mutex_unlock(&s->lock_departure);
@@ -99,13 +100,11 @@ int	main(int ac, char **av)
 		return (putstr_fd("error: failed to initialize mutexes\n", 2), 1);
 	philo = ft_calloc(s.nop, sizeof(t_philo));
 	if (!philo)
-		return (putstr_fd("error: allocation failed\n", 2), 1);
+		return (print_n_destroy(&s, "error: allocation failed\n"), 1);
 	if (populate_philos(&s, philo))
-		return (free(philo), putstr_fd("error: failed to initialize mutexes\n",
-				2), 1);
+		return (print_n_clean(philo, "error: failed to initialize mutexes\n"), 1);
 	if (launch_simulation(&s, philo))
-		return (free(philo), putstr_fd("error: failed to create threads\n", 2),
-			1);
+		return (print_n_clean(philo, "error: failed to create threads\n"), 1);
 	free(philo);
 	return (0);
 }
