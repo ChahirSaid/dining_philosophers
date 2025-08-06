@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/06 11:43:02 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:15:43 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,34 @@ int  check_n_delay(t_philo *philo)
     return (0);
 }
 
+static void lock_forks(t_philo *philo, int *n)
+{
+	if (!(philo->pid == philo->schedule->nop))
+	{	
+		pthread_mutex_lock(&philo->lfork);
+		if (print_routine(philo, "has taken a fork"))
+			*n = 1;
+		pthread_mutex_lock(philo->rfork);
+		if (!*n && print_routine(philo, "has taken a fork"))
+			*n = 1;
+	}
+	else
+	{
+		pthread_mutex_lock(philo->rfork);
+		if (!*n && print_routine(philo, "has taken a fork"))
+			*n = 1;
+		pthread_mutex_lock(&philo->lfork);
+		if (print_routine(philo, "has taken a fork"))
+			*n = 1;
+	}
+}
 
 static int  eating(t_philo *philo)
 {
-	int n = 0;
-	pthread_mutex_lock(&philo->lfork);
-	if (print_routine(philo, "has taken a fork"))
-		n = 1;
-	pthread_mutex_lock(philo->rfork);
-	if (!n && print_routine(philo, "has taken a fork"))
-		n = 1;
+	int n;
+	
+	n = 0;
+	lock_forks(philo, &n);
 	if (!n && print_routine(philo, "is eating"))
 		n = 1;
 	pthread_mutex_lock(&philo->lock_mealtime);
