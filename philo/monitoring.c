@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 11:07:48 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/09 18:39:39 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/09 21:46:48 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void    *monitoring(void *data)
             if (philo[i].schedule->ttd + philo[i].last_meal <= get_time())
             {
                 pthread_mutex_unlock(&philo[i].lock_mealtime);
+                pthread_mutex_lock(&philo->schedule->lock_meal_limit);
+                if (philo->schedule->meals_limit == (philo->schedule->nop * philo->schedule->nom))
+                    return (pthread_mutex_unlock(&philo->schedule->lock_meal_limit), NULL);
+                pthread_mutex_unlock(&philo->schedule->lock_meal_limit);
                 pthread_mutex_lock(&philo[i].schedule->lock_death);
                 philo[i].schedule->one_died = 1;
                 pthread_mutex_unlock(&philo->schedule->lock_death);

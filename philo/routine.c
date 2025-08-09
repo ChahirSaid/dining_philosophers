@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/09 18:44:30 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/09 21:38:07 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,12 @@ static int  eating(t_philo *philo)
 	lock_forks(philo, &n);
 	if (!n && print_routine(philo, "is eating"))
 		n = 1;
-	pthread_mutex_lock(&philo->lock_mealtime);
 	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->lock_mealtime);
 	if (!n && usleep(philo->schedule->tte * 1000))
 		n = 1;
+	pthread_mutex_lock(&philo->schedule->lock_meal_limit);
+	philo->schedule->meals_limit++;
+	pthread_mutex_unlock(&philo->schedule->lock_meal_limit);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->rfork);
 	pthread_mutex_unlock(&philo->lfork);
