@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/06 11:44:57 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/09 11:21:01 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	populate_philos(t_schedule *s, t_philo *philo)
 	}
 	return (0);
 }
-//destroy mutexes on fail 
 
 int	launch_simulation(t_schedule *s, t_philo *philo)
 {

@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/06 14:15:43 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/09 11:21:48 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,17 @@ int  check_n_delay(t_philo *philo)
 		return (-1);
 	}
 	pthread_mutex_unlock(&philo->schedule->lock_departure);
-    if (philo->pid % 2)
-  	  usleep(1000);
+    if (philo->pid % 2 && philo->schedule->nop > 1)
+	{
+		if (philo->pid % 2)
+	  		usleep(1000);
+		print_routine(philo, "is thinking");
+		if (philo->pid == 1)
+		{
+			usleep((philo->schedule->tte + 10) * 1000);
+		}	
+	}
+	
     return (0);
 }
 
@@ -51,7 +60,7 @@ static void lock_forks(t_philo *philo, int *n)
 static int  eating(t_philo *philo)
 {
 	int n;
-	
+
 	n = 0;
 	lock_forks(philo, &n);
 	if (!n && print_routine(philo, "is eating"))
@@ -68,7 +77,30 @@ static int  eating(t_philo *philo)
 		return (1);
 	return (n);
 }
+static int	thinking(t_philo *philo)
+{
+	int	to_think;
 
+	to_think = 0;
+	if (print_routine(philo, "is thinking"))
+		return (-1);
+	if (philo->schedule->nop % 2)
+	{
+		if (philo->schedule->tte < philo->schedule->tts)
+			to_think = (philo->schedule->tte - (philo->schedule->tte - philo->schedule->tts));
+		else if (philo->schedule->tte > philo->schedule->tts)
+			to_think = (philo->schedule->tte + (philo->schedule->tte - philo->schedule->tts));
+		else
+			to_think = philo->schedule->tte;
+	}
+	else
+		to_think = 1000;
+	return (0);
+}
+
+// 7 610 200 200 ==> 201
+// 7 610 200 250 ==> 151
+// 7 610 200 150 ==> 251
 void	*routine(void *data)
 {
 	t_philo	*philo;
@@ -83,9 +115,8 @@ void	*routine(void *data)
 		if (print_routine(philo, "is sleeping"))
 			return (NULL);
 		usleep(philo->schedule->tts * 1000);
-		if (print_routine(philo, "is thinking"))
+	    if (thinking(philo))
 			return (NULL);
-		usleep (1000);
 	}
 	return (NULL);
 }
