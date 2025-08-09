@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/09 11:39:42 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/09 14:21:53 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int  check_n_delay(t_philo *philo)
 		if (philo->pid % 2)
 	  		usleep(1000);
 		print_routine(philo, "is thinking");
-		if (philo->pid == 1)
+		if (philo->pid == 1 && philo->schedule->nop % 2)
 			usleep((philo->schedule->tte + 5) * 1000);
 	}
 	
@@ -84,21 +84,21 @@ static int	thinking(t_philo *philo)
 		return (-1);
 	if (philo->schedule->nop % 2)
 	{
+		to_think = philo->schedule->tte;
 		if (philo->schedule->tte < philo->schedule->tts)
-			to_think = (philo->schedule->tte + (philo->schedule->tte - philo->schedule->tts) + 1) * 1000;
+			to_think = philo->schedule->tts - philo->schedule->tte + 1;
 		else if (philo->schedule->tte > philo->schedule->tts)
-			to_think = (philo->schedule->tte - (philo->schedule->tte - philo->schedule->tts) + 1) * 1000;
-		else
-			to_think = philo->schedule->tte;
+			to_think += philo->schedule->tte - philo->schedule->tts + 1;
 	}
 	else
-		to_think = 1000;
+		to_think = 1;
+	usleep(to_think * 1000);
 	return (0);
 }
 
 // 7 610 200 200 ==> 201
-// 7 610 200 250 ==> 151
-// 7 610 200 150 ==> 251
+// 7 610 200 250 ==> 200 -( 250 - 200) = 151
+// 7 610 200 150 ==> 200  200 + (200 - 150) = 250
 void	*routine(void *data)
 {
 	t_philo	*philo;
