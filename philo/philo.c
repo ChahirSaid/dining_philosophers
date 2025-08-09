@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/09 11:21:01 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/09 16:19:56 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ int	populate_philos(t_schedule *s, t_philo *philo)
 
 int	launch_simulation(t_schedule *s, t_philo *philo)
 {
-	int	i;
-	pthread_t monitor;
+	int			i;
+	pthread_t	monitor;
+
 	i = 0;
 	pthread_mutex_lock(&s->lock_departure);
 	while (i < s->nop)
@@ -92,7 +93,7 @@ int	main(int ac, char **av)
 		s = (t_schedule){.nop = ft_atoi(av[1]), .ttd = ft_atoi(av[2]),
 			.tte = ft_atoi(av[3]), .tts = ft_atoi(av[4]), .nom = -2,
 			.departure = 0, .one_died = 0};
-	if (s.nop <= 0 || s.ttd == -1 || s.tte == -1 || s.tts == -1 || s.nom == -1)
+	if (s.nop <= 0 || s.ttd <= 0 || s.tte <= 0 || s.tts <= 0 || s.nom == -1 || s.nom == 0)
 		return (putstr_fd("error: invalid arguments\n", 2), 1);
 	s.first_meal = get_time();
 	if (init_mutexes(&s))

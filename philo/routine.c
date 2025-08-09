@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/09 14:21:53 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/09 18:44:30 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,11 @@ int  check_n_delay(t_philo *philo)
 	pthread_mutex_unlock(&philo->schedule->lock_departure);
     if (philo->pid % 2 && philo->schedule->nop > 1)
 	{
-		if (philo->pid % 2)
-	  		usleep(1000);
+		usleep(1000);
 		print_routine(philo, "is thinking");
 		if (philo->pid == 1 && philo->schedule->nop % 2)
 			usleep((philo->schedule->tte + 5) * 1000);
 	}
-	
     return (0);
 }
 
@@ -97,8 +95,8 @@ static int	thinking(t_philo *philo)
 }
 
 // 7 610 200 200 ==> 201
-// 7 610 200 250 ==> 200 -( 250 - 200) = 151
-// 7 610 200 150 ==> 200  200 + (200 - 150) = 250
+// 7 610 200 250 ==>  250 - 200 = 101
+// 7 610 200 150 ==>  200 + (200 - 150) = 250
 void	*routine(void *data)
 {
 	t_philo	*philo;

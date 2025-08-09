@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 11:07:48 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/09 11:23:56 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/09 18:39:39 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@ void    *monitoring(void *data)
 {
     t_philo *philo;
     int i;
-
+    
     philo = (t_philo *)data;
     if (check_n_delay(philo))
         return (NULL);
+    int num = philo[0].schedule->nop;
     while (1)
     {
         i = 0;
-        while (i < philo[i].schedule->nop)
+        while (i < num)
         {
             pthread_mutex_lock(&philo[i].lock_mealtime);
             if (philo[i].schedule->ttd + philo[i].last_meal <= get_time())
@@ -39,8 +40,9 @@ void    *monitoring(void *data)
                 return (NULL);
             }
             pthread_mutex_unlock(&philo[i].lock_mealtime);
-            usleep(1000);
+            i++;
         }
+        usleep(1000);
     }
     return (NULL);
 }

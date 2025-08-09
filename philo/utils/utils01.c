@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 10:04:23 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/06 12:51:33 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/09 15:30:23 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,5 @@ void	print_n_clean(t_philo *philo, char *msg)
 	pthread_mutex_destroy(philo->rfork);
 	pthread_mutex_destroy(&philo->lock_mealtime);
 	print_n_destroy(philo->schedule, msg);
+	free(philo);
 }
