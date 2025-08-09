@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/09 11:21:48 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/09 11:39:42 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ int  check_n_delay(t_philo *philo)
 	  		usleep(1000);
 		print_routine(philo, "is thinking");
 		if (philo->pid == 1)
-		{
-			usleep((philo->schedule->tte + 10) * 1000);
-		}	
+			usleep((philo->schedule->tte + 5) * 1000);
 	}
 	
     return (0);
@@ -87,9 +85,9 @@ static int	thinking(t_philo *philo)
 	if (philo->schedule->nop % 2)
 	{
 		if (philo->schedule->tte < philo->schedule->tts)
-			to_think = (philo->schedule->tte - (philo->schedule->tte - philo->schedule->tts));
+			to_think = (philo->schedule->tte + (philo->schedule->tte - philo->schedule->tts) + 1) * 1000;
 		else if (philo->schedule->tte > philo->schedule->tts)
-			to_think = (philo->schedule->tte + (philo->schedule->tte - philo->schedule->tts));
+			to_think = (philo->schedule->tte - (philo->schedule->tte - philo->schedule->tts) + 1) * 1000;
 		else
 			to_think = philo->schedule->tte;
 	}
