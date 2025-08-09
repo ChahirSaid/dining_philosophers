@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 11:07:48 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/06 11:43:16 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/09 11:23:56 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void    *monitoring(void *data)
                 pthread_mutex_unlock(&philo->schedule->lock_death);
 	            pthread_mutex_lock(&philo->schedule->lock_print);
 	            printf("%ld\t%d %s\n", get_time() - philo->schedule->first_meal,
-			    philo->pid,"philo die");
+			    philo->pid,"died");
 	            pthread_mutex_unlock(&philo->schedule->lock_print);
                 return (NULL);
             }
