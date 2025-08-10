@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 10:11:55 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 10:25:11 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ static void lock_forks(t_philo *philo, int *n)
 		pthread_mutex_lock(philo->rfork);
 		if (!*n && print_routine(philo, "has taken a fork"))
 			*n = 1;
+		if (!*n && philo->schedule->nop == 1)
+		{
+			*n= 1;
+			return ;
+		}
 		pthread_mutex_lock(&philo->lfork);
 		if (print_routine(philo, "has taken a fork"))
 			*n = 1;
@@ -59,13 +64,11 @@ static int  eating(t_philo *philo)
 
 	n = 0;
 	lock_forks(philo, &n);
-	if (!n && philo->schedule->nop == 1)
-		n= 1;
 	if (!n && print_routine(philo, "is eating"))
-		n = 1;
+		n= 1;
 	philo->last_meal = get_time();
 	if (!n && usleep(philo->schedule->tte * 1000))
-		n = 1;
+		n= 1;
 	pthread_mutex_lock(&philo->schedule->lock_meal_limit);
 	philo->schedule->meals_limit++;
 	pthread_mutex_unlock(&philo->schedule->lock_meal_limit);
