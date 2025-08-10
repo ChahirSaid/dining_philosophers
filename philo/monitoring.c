@@ -6,11 +6,29 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 11:07:48 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 13:32:04 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 16:12:34 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int check_all_full(t_philo *philo)
+{
+    int i;
+    int n;
+
+    n = philo->schedule->nop;
+    i = 0;
+    while (i < n)
+    {
+        pthread_mutex_lock(&philo[i].lock_state);
+        if (philo[i].state == 0)
+            return (pthread_mutex_unlock(&philo[i].lock_state),1);
+        pthread_mutex_unlock(&philo[i].lock_state);
+        i++;
+    }
+    return (0);
+}
 
 void    *monitoring(void *data)
 {
@@ -24,14 +42,12 @@ void    *monitoring(void *data)
     while (1)
     {
         i = 0;
+        if (!check_all_full(philo))
+            return (NULL);
         while (i < num)
         {
-            pthread_mutex_lock(&philo->schedule->lock_meal_limit);
-            if (philo->schedule->meals_limit == (philo->schedule->nop * philo->schedule->nom))
-                return (pthread_mutex_unlock(&philo->schedule->lock_meal_limit), NULL);
-            pthread_mutex_unlock(&philo->schedule->lock_meal_limit);
             pthread_mutex_lock(&philo[i].lock_mealtime);
-            if (philo[i].schedule->ttd + philo[i].last_meal <= get_time())
+            if (!philo[i].state && philo[i].schedule->ttd + philo[i].last_meal <= get_time())
             {
                 pthread_mutex_unlock(&philo[i].lock_mealtime);
                 pthread_mutex_lock(&philo[i].schedule->lock_death);

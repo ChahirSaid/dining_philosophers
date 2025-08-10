@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:39:10 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 11:22:10 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 15:02:16 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,12 @@ typedef struct s_schedule
 	int				tte;
 	int				tts;
 	int				nom;
-	int				meals_limit;
 	long			first_meal;
 	int				departure;
 	int				one_died;
 	pthread_mutex_t	lock_print;
 	pthread_mutex_t	lock_departure;
 	pthread_mutex_t	lock_death;
-	pthread_mutex_t	lock_meal_limit;
 }					t_schedule;
 
 typedef struct s_philo
@@ -46,6 +44,8 @@ typedef struct s_philo
 	pthread_mutex_t	*rfork;
 	pthread_mutex_t	lock_mealtime;
 	long			meals_eaten;
+	pthread_mutex_t	lock_state;
+	int				state;
 	long			last_meal;
 	t_schedule		*schedule;
 }					t_philo;
