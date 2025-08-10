@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/09 21:38:07 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 10:11:55 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static int  eating(t_philo *philo)
 
 	n = 0;
 	lock_forks(philo, &n);
+	if (!n && philo->schedule->nop == 1)
+		n= 1;
 	if (!n && print_routine(philo, "is eating"))
 		n = 1;
 	philo->last_meal = get_time();
@@ -78,16 +80,16 @@ static int	thinking(t_philo *philo)
 {
 	int	to_think;
 
-	to_think = 0;
+	to_think = 1;
 	if (print_routine(philo, "is thinking"))
 		return (-1);
 	if (philo->schedule->nop % 2)
 	{
 		to_think = philo->schedule->tte;
 		if (philo->schedule->tte < philo->schedule->tts)
-			to_think = philo->schedule->tts - philo->schedule->tte + 1;
+			to_think -= philo->schedule->tts - philo->schedule->tte;
 		else if (philo->schedule->tte > philo->schedule->tts)
-			to_think += philo->schedule->tte - philo->schedule->tts + 1;
+			to_think += philo->schedule->tte - philo->schedule->tts;
 	}
 	else
 		to_think = 1;
