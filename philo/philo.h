@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:39:10 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 22:24:29 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 22:33:18 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ void				putstr_fd(char *s, int fd);
 void				print_n_destroy(t_schedule *s, char *msg);
 void				clean_print(t_philo *philo, char *msg);
 long				get_time(void);
+int					check_n_set(t_schedule *s);
 
 #endif

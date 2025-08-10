@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 10:04:23 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 22:24:29 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 22:32:50 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,19 @@ int	print_routine(t_philo *philo, char *msg)
 	printf("%ld\t%d %s\n", get_time() - philo->schedule->first_meal, philo->pid,
 		msg);
 	pthread_mutex_unlock(&philo->schedule->lock_print);
+	return (0);
+}
+
+int	check_n_set(t_schedule *s)
+{
+	if (s->nop <= 0 || s->ttd <= 0 || s->tte <= 0 || s->tts <= 0 || s->nom == -1
+		|| s->nom == 0)
+		return (1);
+	if (s->tte > s->ttd)
+		s->tte = s->ttd;
+	if (s->tts > s->ttd)
+		s->tts = s->ttd;
+	s->first_meal = get_time();
 	return (0);
 }
 

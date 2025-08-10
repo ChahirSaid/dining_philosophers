@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 22:24:36 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 22:32:37 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,18 @@ static int	populate_philos(t_schedule *s, t_philo *philo)
 	return (0);
 }
 
+static int	create_philos(t_philo *philo, t_schedule *s, int i)
+{
+	if (pthread_create(&philo[i].philo, NULL, routine, &philo[i]))
+	{
+		pthread_mutex_unlock(&s->lock_departure);
+		while (--i > 0)
+			pthread_join(philo[i].philo, NULL);
+		return (-1);
+	}
+	return (0);
+}
+
 static int	launch_simulation(t_schedule *s, t_philo *philo)
 {
 	int			i;
@@ -54,13 +66,8 @@ static int	launch_simulation(t_schedule *s, t_philo *philo)
 	while (i < s->nop)
 	{
 		philo[i].last_meal = get_time();
-		if (pthread_create(&philo[i].philo, NULL, routine, &philo[i]))
-		{
-			pthread_mutex_unlock(&s->lock_departure);
-			while (--i > 0)
-				pthread_join(philo[i].philo, NULL);
+		if (create_philos(philo, s, i))
 			return (-1);
-		}
 		i++;
 	}
 	if (pthread_create(&monitor, NULL, monitoring, philo))
@@ -75,19 +82,6 @@ static int	launch_simulation(t_schedule *s, t_philo *philo)
 	pthread_join(monitor, NULL);
 	while (i--)
 		pthread_join(philo[i].philo, NULL);
-	return (0);
-}
-
-static int	check_n_set(t_schedule *s)
-{
-	if (s->nop <= 0 || s->ttd <= 0 || s->tte <= 0 || s->tts <= 0 || s->nom == -1
-		|| s->nom == 0)
-		return (1);
-	if (s->tte > s->ttd)
-		s->tte = s->ttd;
-	if (s->tts > s->ttd)
-		s->tts = s->ttd;
-	s->first_meal = get_time();
 	return (0);
 }
 
