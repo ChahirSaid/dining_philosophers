@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 18:32:28 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 20:47:59 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,6 @@ int	main(int ac, char **av)
 		return (print_n_clean(philo, "error: failed to initialize mutexes\n"), 1);
 	if (launch_simulation(&s, philo))
 		return (print_n_clean(philo, "error: failed to create threads\n"), 1);
-	free(philo);
+	print_n_clean(philo, NULL);
 	return (0);
 }

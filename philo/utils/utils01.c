@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 10:04:23 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/09 15:30:23 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 20:48:45 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	print_n_destroy(t_schedule *s, char *msg)
 	pthread_mutex_destroy(&s->lock_print);
 	pthread_mutex_destroy(&s->lock_departure);
 	pthread_mutex_destroy(&s->lock_death);
-	putstr_fd(msg, 2);
+	if (msg)
+		putstr_fd(msg, 2);
 }
 
 void	print_n_clean(t_philo *philo, char *msg)
