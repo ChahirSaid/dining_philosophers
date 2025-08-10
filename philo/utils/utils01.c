@@ -12,12 +12,12 @@
 
 #include "../philo.h"
 
-long	get_time()
+long	get_time(void)
 {
-	struct	timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 int	print_routine(t_philo *philo, char *msg)
@@ -31,8 +31,8 @@ int	print_routine(t_philo *philo, char *msg)
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->schedule->lock_death);
-	printf("%ld\t%d %s\n", get_time() - philo->schedule->first_meal,
-			philo->pid,msg);
+	printf("%ld\t%d %s\n", get_time() - philo->schedule->first_meal, philo->pid,
+		msg);
 	pthread_mutex_unlock(&philo->schedule->lock_print);
 	return (0);
 }

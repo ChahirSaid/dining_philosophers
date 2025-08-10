@@ -6,13 +6,13 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 20:47:59 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 22:01:22 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_mutexes(t_schedule *s)
+static int	init_mutexes(t_schedule *s)
 {
 	if (pthread_mutex_init(&s->lock_print, NULL))
 		return (-1);
@@ -24,7 +24,7 @@ int	init_mutexes(t_schedule *s)
 	return (0);
 }
 
-int	populate_philos(t_schedule *s, t_philo *philo)
+static int	populate_philos(t_schedule *s, t_philo *philo)
 {
 	int	i;
 
@@ -44,7 +44,7 @@ int	populate_philos(t_schedule *s, t_philo *philo)
 	return (0);
 }
 
-int	launch_simulation(t_schedule *s, t_philo *philo)
+static int	launch_simulation(t_schedule *s, t_philo *philo)
 {
 	int			i;
 	pthread_t	monitor;
@@ -93,12 +93,13 @@ int	main(int ac, char **av)
 		s = (t_schedule){.nop = ft_atoi(av[1]), .ttd = ft_atoi(av[2]),
 			.tte = ft_atoi(av[3]), .tts = ft_atoi(av[4]), .nom = -2,
 			.departure = 0, .one_died = 0};
-	if (s.nop <= 0 || s.ttd <= 0 || s.tte <= 0 || s.tts <= 0 || s.nom == -1 || s.nom == 0)
+	if (s.nop <= 0 || s.ttd <= 0 || s.tte <= 0 || s.tts <= 0 || s.nom == -1
+		|| s.nom == 0)
 		return (putstr_fd("error: invalid arguments\n", 2), 1);
 	if (s.tte > s.ttd)
-			s.tte = s.ttd;
+		s.tte = s.ttd;
 	if (s.tts > s.ttd)
-			s.tts = s.ttd;
+		s.tts = s.ttd;
 	s.first_meal = get_time();
 	if (init_mutexes(&s))
 		return (putstr_fd("error: failed to initialize mutexes\n", 2), 1);
@@ -106,9 +107,9 @@ int	main(int ac, char **av)
 	if (!philo)
 		return (print_n_destroy(&s, "error: allocation failed\n"), 1);
 	if (populate_philos(&s, philo))
-		return (print_n_clean(philo, "error: failed to initialize mutexes\n"), 1);
+		return (print_n_clean(philo, "error: failed to initialize mutexes\n"),
+			1);
 	if (launch_simulation(&s, philo))
 		return (print_n_clean(philo, "error: failed to create threads\n"), 1);
-	print_n_clean(philo, NULL);
-	return (0);
+	return (print_n_clean(philo, NULL), 0);
 }

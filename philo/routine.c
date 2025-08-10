@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int check_n_delay(t_philo *philo)
+int	check_n_delay(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->schedule->lock_departure);
 	if (!philo->schedule->departure)
@@ -31,7 +31,7 @@ int check_n_delay(t_philo *philo)
 	return (0);
 }
 
-static void lock_forks(t_philo *philo, int *n)
+static void	lock_forks(t_philo *philo, int *n)
 {
 	if (!(philo->pid == philo->schedule->nop))
 	{
@@ -50,7 +50,7 @@ static void lock_forks(t_philo *philo, int *n)
 		if (!*n && philo->schedule->nop == 1)
 		{
 			*n = 1;
-			return;
+			return ;
 		}
 		pthread_mutex_lock(&philo->lfork);
 		if (print_routine(philo, "has taken a fork"))
@@ -58,9 +58,9 @@ static void lock_forks(t_philo *philo, int *n)
 	}
 }
 
-static int eating(t_philo *philo)
+static int	eating(t_philo *philo)
 {
-	int n;
+	int	n;
 
 	n = 0;
 	lock_forks(philo, &n);
@@ -68,11 +68,9 @@ static int eating(t_philo *philo)
 		n = 1;
 	pthread_mutex_lock(&philo->lock_mealtime);
 	philo->last_meal = get_time();
-
 	pthread_mutex_unlock(&philo->lock_mealtime);
 	if (!n && usleep(philo->schedule->tte * 1000))
 		n = 1;
-
 	if (philo->schedule->nop != 1)
 		pthread_mutex_unlock(&philo->lfork);
 	pthread_mutex_unlock(philo->rfork);
@@ -84,9 +82,9 @@ static int eating(t_philo *philo)
 	return (n);
 }
 
-static int thinking(t_philo *philo)
+static int	thinking(t_philo *philo)
 {
-	int to_think;
+	int	to_think;
 
 	to_think = 1;
 	if (print_routine(philo, "is thinking"))
@@ -95,11 +93,11 @@ static int thinking(t_philo *philo)
 	{
 		to_think = philo->schedule->tte;
 		if (philo->schedule->tte < philo->schedule->tts)
-			{
-				to_think -= philo->schedule->tts - philo->schedule->tte;
-				if (to_think < 0)
-					to_think = 0;
-			}
+		{
+			to_think -= philo->schedule->tts - philo->schedule->tte;
+			if (to_think < 0)
+				to_think = 0;
+		}
 		else if (philo->schedule->tte > philo->schedule->tts)
 			to_think += philo->schedule->tte - philo->schedule->tts;
 	}
@@ -109,9 +107,9 @@ static int thinking(t_philo *philo)
 	return (0);
 }
 
-void *routine(void *data)
+void	*routine(void *data)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)data;
 	if (check_n_delay(philo))

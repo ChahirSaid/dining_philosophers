@@ -50,6 +50,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	s = malloc(size * nmemb);
 	if (!s)
 		return (NULL);
-	memset(s, 0 , (size * nmemb));
+	memset(s, 0, (size * nmemb));
 	return (s);
 }
