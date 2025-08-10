@@ -6,33 +6,28 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:39:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/06 10:47:31 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 11:21:26 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-long	ft_atoi(char *str)
+int	ft_atoi(char *str)
 {
-	long (value), (i);
+	long	value;
+	int		i;
+
 	i = 0;
 	value = 0;
 	if (!str || !*str)
-		return (0);
+		return (-1);
 	if (str[i] == '+')
 		i++;
-	if (str[i] == '-' && str[i + 1] && str[i + 1] == '0')
-	{
-		while (str[++i] == '0')
-			;
-		if (str[i])
-			return (-1);
-	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		value = value * 10 + (str[i] - '0');
 		i++;
-		if (value > LONG_MAX)
+		if (value > INT_MAX)
 			return (-1);
 	}
 	if (str[i])
