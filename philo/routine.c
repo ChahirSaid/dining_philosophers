@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 16:20:18 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 16:34:28 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,9 @@ static int eating(t_philo *philo)
 	if (!n && print_routine(philo, "is eating"))
 		n = 1;
 	pthread_mutex_lock(&philo->lock_mealtime);
-
 	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->lock_mealtime);
 
+	pthread_mutex_unlock(&philo->lock_mealtime);
 	if (!n && usleep(philo->schedule->tte * 1000))
 		n = 1;
 
@@ -84,6 +83,7 @@ static int eating(t_philo *philo)
 	pthread_mutex_unlock(&philo->lock_state);
 	return (n);
 }
+
 static int thinking(t_philo *philo)
 {
 	int to_think;
@@ -106,8 +106,8 @@ static int thinking(t_philo *philo)
 }
 
 // 7 610 200 200 ==> 201
-// 7 610 200 250 ==>  250 - 200 = 101
-// 7 610 200 150 ==>  200 + (200 - 150) = 250
+// 7 610 200 250 ==>  tte - (tts - tte)
+// 7 610 200 150 ==>  tte + (tte - tts)
 void *routine(void *data)
 {
 	t_philo *philo;
