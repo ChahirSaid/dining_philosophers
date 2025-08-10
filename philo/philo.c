@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 22:01:22 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 22:24:36 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,19 @@ static int	launch_simulation(t_schedule *s, t_philo *philo)
 	return (0);
 }
 
+static int	check_n_set(t_schedule *s)
+{
+	if (s->nop <= 0 || s->ttd <= 0 || s->tte <= 0 || s->tts <= 0 || s->nom == -1
+		|| s->nom == 0)
+		return (1);
+	if (s->tte > s->ttd)
+		s->tte = s->ttd;
+	if (s->tts > s->ttd)
+		s->tts = s->ttd;
+	s->first_meal = get_time();
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_philo		*philo;
@@ -93,23 +106,16 @@ int	main(int ac, char **av)
 		s = (t_schedule){.nop = ft_atoi(av[1]), .ttd = ft_atoi(av[2]),
 			.tte = ft_atoi(av[3]), .tts = ft_atoi(av[4]), .nom = -2,
 			.departure = 0, .one_died = 0};
-	if (s.nop <= 0 || s.ttd <= 0 || s.tte <= 0 || s.tts <= 0 || s.nom == -1
-		|| s.nom == 0)
+	if (check_n_set(&s))
 		return (putstr_fd("error: invalid arguments\n", 2), 1);
-	if (s.tte > s.ttd)
-		s.tte = s.ttd;
-	if (s.tts > s.ttd)
-		s.tts = s.ttd;
-	s.first_meal = get_time();
 	if (init_mutexes(&s))
 		return (putstr_fd("error: failed to initialize mutexes\n", 2), 1);
 	philo = ft_calloc(s.nop, sizeof(t_philo));
 	if (!philo)
 		return (print_n_destroy(&s, "error: allocation failed\n"), 1);
 	if (populate_philos(&s, philo))
-		return (print_n_clean(philo, "error: failed to initialize mutexes\n"),
-			1);
+		return (clean_print(philo, "error: failed to initialize mutexes\n"), 1);
 	if (launch_simulation(&s, philo))
-		return (print_n_clean(philo, "error: failed to create threads\n"), 1);
-	return (print_n_clean(philo, NULL), 0);
+		return (clean_print(philo, "error: failed to create threads\n"), 1);
+	return (clean_print(philo, NULL), 0);
 }
