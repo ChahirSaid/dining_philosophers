@@ -51,10 +51,10 @@ typedef struct s_philo
 }					t_philo;
 
 /*-----------Philo-------------*/
-void	*routine(void *data);
-int		print_routine(t_philo *philo, char *msg);
-int 	check_n_delay(t_philo *philo);
-void    *monitoring(void *data);
+void				*routine(void *data);
+int					print_routine(t_philo *philo, char *msg);
+int					check_n_delay(t_philo *philo);
+void				*monitoring(void *data);
 
 /*-------Utils----------*/
 int					ft_atoi(char *str);
@@ -62,6 +62,6 @@ void				*ft_calloc(size_t nmemb, size_t size);
 void				putstr_fd(char *s, int fd);
 void				print_n_destroy(t_schedule *s, char *msg);
 void				print_n_clean(t_philo *philo, char *msg);
-long				get_time();
+long				get_time(void);
 
 #endif
