@@ -6,13 +6,13 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 11:07:48 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 18:25:14 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 21:44:46 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int check_all_full(t_philo *philo)
+int check_full(t_philo *philo)
 {
     int i;
     int n;
@@ -42,7 +42,7 @@ void    *monitoring(void *data)
     while (1)
     {
         i = 0;
-        if (!check_all_full(philo))
+        if (!check_full(philo))
             return (NULL);
         while (i < num)
         {
