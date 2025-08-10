@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/09 21:27:24 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 11:54:10 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,8 @@ int	main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 		return (putstr_fd("error: invalid arguments\n", 2), 1);
-	if (ac == 6)
 		s = (t_schedule){.nop = ft_atoi(av[1]), .ttd = ft_atoi(av[2]),
-			.tte = ft_atoi(av[3]), .tts = ft_atoi(av[4]), .nom = ft_atoi(av[5]),
-			.meals_limit = 0, .departure = 0, .one_died = 0};
-	else
-		s = (t_schedule){.nop = ft_atoi(av[1]), .ttd = ft_atoi(av[2]),
-			.tte = ft_atoi(av[3]), .tts = ft_atoi(av[4]), .nom = -2,
+			.tte = ft_atoi(av[3]), .tts = ft_atoi(av[4]), .nom = (ac == 6) * ft_atoi(av[5]),
 			.meals_limit = 0, .departure = 0, .one_died = 0};
 	if (s.nop <= 0 || s.ttd <= 0 || s.tte <= 0 || s.tts <= 0 || s.nom == -1 || s.nom == 0)
 		return (putstr_fd("error: invalid arguments\n", 2), 1);
