@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 18:48:56 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/10 21:27:29 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,12 @@ static int thinking(t_philo *philo)
 	if (philo->schedule->nop % 2)
 	{
 		to_think = philo->schedule->tte;
-		if (philo->schedule->tte + philo->schedule->tts <= philo->schedule->ttd)
-			to_think = 0;
-		else if (philo->schedule->tte < philo->schedule->tts)
-			to_think -= philo->schedule->tts - philo->schedule->tte;
+		if (philo->schedule->tte < philo->schedule->tts)
+			{
+				to_think -= philo->schedule->tts - philo->schedule->tte;
+				if (to_think < 0)
+					to_think = 0;
+			}
 		else if (philo->schedule->tte > philo->schedule->tts)
 			to_think += philo->schedule->tte - philo->schedule->tts;
 	}
