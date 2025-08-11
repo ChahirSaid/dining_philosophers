@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 11:07:48 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/11 14:21:11 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/11 17:08:35 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ static void	print_death(t_philo *philo, int i)
 static int	check_deaths(t_philo *philo, int i)
 {
 	pthread_mutex_lock(&philo[i].lock_mealtime);
-	pthread_mutex_lock(&philo->lock_state);
+	pthread_mutex_lock(&philo[i].lock_state);
 	if (!philo[i].state && philo[i].schedule->ttd
 		+ philo[i].last_meal <= get_time())
 	{
 		print_death(philo, i);
-		pthread_mutex_unlock(&philo->lock_state);
+		pthread_mutex_unlock(&philo[i].lock_state);
 		return (1);
 	}
-	pthread_mutex_unlock(&philo->lock_state);
+	pthread_mutex_unlock(&philo[i].lock_state);
 	pthread_mutex_unlock(&philo[i].lock_mealtime);
 	return (0);
 }
