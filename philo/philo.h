@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:39:10 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 22:33:18 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/11 16:17:00 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_philo
 	pthread_mutex_t	*rfork;
 	pthread_mutex_t	lock_mealtime;
 	pthread_mutex_t	lock_state;
+	int				mutexed;
 	long			meals_eaten;
 	int				state;
 	long			last_meal;

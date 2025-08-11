@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 21:27:29 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/11 16:18:04 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	lock_forks(t_philo *philo, int *n)
 		if (!*n && philo->schedule->nop == 1)
 		{
 			*n = 1;
+			philo->mutexed = 1;
 			return ;
 		}
 		pthread_mutex_lock(&philo->lfork);
