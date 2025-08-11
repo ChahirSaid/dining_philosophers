@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 11:07:48 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 22:00:14 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/11 14:21:11 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,22 @@ static void	print_death(t_philo *philo, int i)
 	pthread_mutex_unlock(&philo->schedule->lock_print);
 }
 
+static int	check_deaths(t_philo *philo, int i)
+{
+	pthread_mutex_lock(&philo[i].lock_mealtime);
+	pthread_mutex_lock(&philo->lock_state);
+	if (!philo[i].state && philo[i].schedule->ttd
+		+ philo[i].last_meal <= get_time())
+	{
+		print_death(philo, i);
+		pthread_mutex_unlock(&philo->lock_state);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->lock_state);
+	pthread_mutex_unlock(&philo[i].lock_mealtime);
+	return (0);
+}
+
 void	*monitoring(void *data)
 {
 	t_philo	*philo;
@@ -59,11 +75,8 @@ void	*monitoring(void *data)
 			return (NULL);
 		while (i < num)
 		{
-			pthread_mutex_lock(&philo[i].lock_mealtime);
-			if (!philo[i].state && philo[i].schedule->ttd
-				+ philo[i].last_meal <= get_time())
-				return (print_death(philo, i), NULL);
-			pthread_mutex_unlock(&philo[i].lock_mealtime);
+			if (check_deaths(philo, i))
+				return (NULL);
 			i++;
 		}
 		usleep(1000);
