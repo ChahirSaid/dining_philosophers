@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 09:38:06 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/11 16:18:04 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/11 16:40:29 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,11 @@ static int	eating(t_philo *philo)
 	pthread_mutex_lock(&philo->lock_state);
 	philo->meals_eaten++;
 	if (philo->meals_eaten == philo->schedule->nom)
-		return (philo->state = 1, pthread_mutex_unlock(&philo->lock_state), 1);
+	{
+		if (philo->schedule->nop != 1)
+			philo->state = 1;
+		return (pthread_mutex_unlock(&philo->lock_state), 1);
+	}
 	pthread_mutex_unlock(&philo->lock_state);
 	return (n);
 }
