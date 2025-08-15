@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:13:07 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/10 22:32:37 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/15 15:52:56 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	create_philos(t_philo *philo, t_schedule *s, int i)
 	if (pthread_create(&philo[i].philo, NULL, routine, &philo[i]))
 	{
 		pthread_mutex_unlock(&s->lock_departure);
-		while (--i > 0)
+		while (--i >= 0)
 			pthread_join(philo[i].philo, NULL);
 		return (-1);
 	}
@@ -73,7 +73,7 @@ static int	launch_simulation(t_schedule *s, t_philo *philo)
 	if (pthread_create(&monitor, NULL, monitoring, philo))
 	{
 		pthread_mutex_unlock(&s->lock_departure);
-		while (--i > 0)
+		while (--i >= 0)
 			pthread_join(philo[i].philo, NULL);
 		return (-1);
 	}

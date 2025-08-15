@@ -6,7 +6,7 @@
 /*   By: schahir <schahir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 10:04:23 by schahir           #+#    #+#             */
-/*   Updated: 2025/08/11 16:18:35 by schahir          ###   ########.fr       */
+/*   Updated: 2025/08/15 15:55:20 by schahir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,6 @@ void	print_n_destroy(t_schedule *s, char *msg)
 void	clean_print(t_philo *philo, char *msg)
 {
 	pthread_mutex_destroy(&philo->lfork);
-	if (!philo->mutexed)
-		pthread_mutex_destroy(philo->rfork);
-	pthread_mutex_destroy(&philo->lock_mealtime);
 	print_n_destroy(philo->schedule, msg);
 	free(philo);
 }

@@ -1,5 +1,5 @@
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -g
+CFLAGS	= -Wall -Wextra -Werror
 
 FILES	= philo.c routine.c monitoring.c utils/utils00.c utils/utils01.c
 OBJ		= $(FILES:.c=.o)
